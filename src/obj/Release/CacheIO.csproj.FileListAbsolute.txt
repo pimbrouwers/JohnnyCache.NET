@@ -1,0 +1,8 @@
+C:\www13\Soulpepper_Soulpepper.ca\FileCache\bin\Release\CacheIO.dll.config
+C:\www13\Soulpepper_Soulpepper.ca\FileCache\bin\Release\CacheIO.dll
+C:\www13\Soulpepper_Soulpepper.ca\FileCache\bin\Release\CacheIO.pdb
+C:\www13\Soulpepper_Soulpepper.ca\FileCache\bin\Release\Newtonsoft.Json.dll
+C:\www13\Soulpepper_Soulpepper.ca\FileCache\bin\Release\Newtonsoft.Json.xml
+C:\www13\Soulpepper_Soulpepper.ca\FileCache\obj\Release\CacheIO.csprojResolveAssemblyReference.cache
+C:\www13\Soulpepper_Soulpepper.ca\FileCache\obj\Release\CacheIO.dll
+C:\www13\Soulpepper_Soulpepper.ca\FileCache\obj\Release\CacheIO.pdb
