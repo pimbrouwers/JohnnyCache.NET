@@ -1,0 +1,1 @@
+{"name":"Johnny Cache","tagline":"A thread-safe caching abstraction layer for .NET","body":"# Johnny Cache\r\nA thread-safe caching abstraction layer for .NET -- leverages object cache, filesystem and Azure Blob Storage (Amazon S3 coming soon).\r\n","google":"","note":"Don't delete this file! It's used internally to help with page regeneration."}
