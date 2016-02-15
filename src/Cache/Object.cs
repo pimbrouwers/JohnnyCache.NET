@@ -12,7 +12,7 @@ namespace CacheIO.Cache
     {
         //invoke object cache
         private static MemoryCache _cache;
-        private static MemoryCache cache
+        private static MemoryCache Cache
         {
             get
             {
@@ -40,10 +40,15 @@ namespace CacheIO.Cache
         /// <param name="objToWrite"></param>
         /// <param name="key"></param>
         public static void AddItem(object objToWrite, string key)
-        {
+        {            
             lock (padlock)
             {
-                cache.Set(key, objToWrite, new CacheItemPolicy() {AbsoluteExpiration = DateTime.Now.AddSeconds(Config.ExpirationSeconds), Priority = CacheItemPriority.NotRemovable});
+                //do we have the object in object cache already?
+                if (ObjectCache.Cache.Contains(new KeyValuePair<string, object>(key, objToWrite)))
+                    ObjectCache.RemoveItem(key);
+
+                //set new object into memory
+                Cache.Set(key, objToWrite, new CacheItemPolicy() {AbsoluteExpiration = DateTime.Now.AddSeconds(Config.ExpirationSeconds), Priority = CacheItemPriority.NotRemovable});
             }
         }
 
@@ -55,7 +60,11 @@ namespace CacheIO.Cache
         {
             lock (padlock)
             {
-                cache.Remove(key);
+                try
+                {
+                    Cache.Remove(key);
+                }
+                catch { } //try to remove, or die if not exists                
             }
         }
 
@@ -64,16 +73,16 @@ namespace CacheIO.Cache
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static object GetItem<T>(string key)
+        public static T GetItem<T>(string key)
         {
             lock (padlock)
             {
-                var res = cache.Get(key);
+                var res = Cache.Get(key);
 
                 if (res is T)
                     return (T)res;
                 else
-                    return null;
+                    return default(T);
             }
         }
 

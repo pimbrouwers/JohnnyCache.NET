@@ -12,15 +12,34 @@ namespace CacheIO
         public static object Get<T>(string key)
         {
             try
-            {                
+            {
+                T objFromCache;
+
                 //first check mem cache
-                T objFromCache = (T)ObjectCache.GetItem<T>(key);
-                if (objFromCache != null)
+                objFromCache = ObjectCache.GetItem<T>(key);
+
+                if (!EqualityComparer<T>.Default.Equals(objFromCache, default(T)))
                     return objFromCache;
 
                 //at this point we know it's not in memory
                 //read from file system
-                return FileCache.GetItem<T>(key);
+                objFromCache = FileCache.GetItem<T>(key);
+
+                if(!EqualityComparer<T>.Default.Equals(objFromCache, default(T)))
+                    return objFromCache;
+                
+                if(Azure.IsReady)
+                {
+                    //not in mem or file
+                    //hit blob storage
+                    objFromCache = Azure.GetItem<T>(key);
+
+                    if (!EqualityComparer<T>.Default.Equals(objFromCache, default(T)))
+                        return objFromCache;
+                }
+                //TODO: else if (AmazonS3.IsReady)
+
+                return null;
             }
             catch (Exception ex)
             {
@@ -32,15 +51,25 @@ namespace CacheIO
         {
             try
             {
-                //clear out mem cache
-                ObjectCache.RemoveItem(key);
+                //add to mem cache
+                ObjectCache.AddItem(objToWrite, key);
 
                 //write to the file system
                 //(also writes to object cache)
                 FileCache.AddItem(objToWrite, key);
+
+                //Is Azure Setup?
+                if (Azure.IsReady)
+                {
+                    //writes to azure blob storage
+                    //(also writes to file cache)
+                    //(also writes to object cache)
+                    Azure.AddItem(objToWrite, key);
+                }
+                //TODO: else if (AmazonS3.IsReady)
             }
             catch (Exception ex)
-            {                
+            {
                 throw ex;
             }
         }
@@ -54,6 +83,11 @@ namespace CacheIO
 
                 //delete file
                 FileCache.RemoveItem(key);
+
+                //delete azure blob
+                Azure.RemoveItem(key);
+
+                //TODO: AmazonS3.RemoveItem(key);
             }
             catch (Exception ex)
             {

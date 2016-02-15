@@ -52,5 +52,51 @@ namespace CacheIO
                 return expiration;
             }
         }
+
+        //////////////////////////////////
+        //AZURE
+        //////////////////////////////////
+        public static string AzureAccountName
+        {
+            get
+            {
+                string s = System.Configuration.ConfigurationManager.AppSettings["JC-AzureAccountName"];
+                if (string.IsNullOrWhiteSpace(s))
+                {
+                    s = null;
+                }
+
+                return s;
+            }
+        }
+
+        public static string AzureAccountKey
+        {
+            get
+            {
+                string s = System.Configuration.ConfigurationManager.AppSettings["JC-AzureAccountKey"];
+                if (string.IsNullOrWhiteSpace(s))
+                {
+                    s = null;
+                }
+
+                return s;
+            }
+        }
+
+        public static string AzureDefaultBlobContainer 
+        {
+            get
+            {
+                string s = System.Configuration.ConfigurationManager.AppSettings["JC-AzureDefaultBlobContainer"];
+                
+                if (string.IsNullOrWhiteSpace(s))
+                {
+                    s = Config.ObjectCacheName;
+                }
+
+                return s;
+            }
+        }
     }
 }
