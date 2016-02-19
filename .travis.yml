@@ -1,6 +1,6 @@
 sudo: false
 language: csharp
-solution: JohnnyCache.sln.sln
+solution: JohnnyCache.sln
  
 install:
   - nuget restore ./src/JohnnyCache.sln
