@@ -1,9 +1,9 @@
 sudo: false
 language: csharp
-solution: Cinch.sln
+solution: JohnnyCache.sln.sln
  
 install:
-  - nuget restore ./Cinch.sln
+  - nuget restore ./src/JohnnyCache.sln.sln
    
 script:
-  - xbuild /p:Configuration=Release ./Cinch.sln
+  - xbuild /p:Configuration=Release ./src/JohnnyCache.sln.sln
