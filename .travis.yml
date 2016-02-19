@@ -3,7 +3,7 @@ language: csharp
 solution: JohnnyCache.sln.sln
  
 install:
-  - nuget restore ./src/JohnnyCache.sln.sln
+  - nuget restore ./src/JohnnyCache.sln
    
 script:
-  - xbuild /p:Configuration=Release ./src/JohnnyCache.sln.sln
+  - xbuild /p:Configuration=Release ./src/JohnnyCache.sln
