@@ -31,10 +31,10 @@
 
 <p>There are 3 primary configuration variables that need to be set in your <code>App.Config/Web.Config</code></p>
 
-<div class="highlight highlight-text-xml"><pre>    <span class="pl-c">&lt;!-- JOHNNY CACHE --&gt;</span>
-    &lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s"><span class="pl-pds">"</span>JC-ObjectCacheName<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>JohnnyCache-SomeProject<span class="pl-pds">"</span></span>/&gt;
-    &lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s"><span class="pl-pds">"</span>JC-WorkingDirectory<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>c:\temp\JohnnyCache\SomeProject<span class="pl-pds">"</span></span>/&gt;
-    &lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s"><span class="pl-pds">"</span>JC-ExpirationInSeconds<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>300<span class="pl-pds">"</span></span>/&gt;</pre></div>
+<div class="highlight highlight-text-xml"><pre><span class="pl-c">&lt;!-- JOHNNY CACHE --&gt;</span>
+&lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s"><span class="pl-pds">"</span>JC-ObjectCacheName<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>JohnnyCache-SomeProject<span class="pl-pds">"</span></span>/&gt;
+&lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s"><span class="pl-pds">"</span>JC-WorkingDirectory<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>c:\temp\JohnnyCache\SomeProject<span class="pl-pds">"</span></span>/&gt;
+&lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s"><span class="pl-pds">"</span>JC-ExpirationInSeconds<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>300<span class="pl-pds">"</span></span>/&gt;</pre></div>
 
 <p>Note: None of the above configuration variables are required, as they all are backed by default return values;</p>
 
@@ -43,8 +43,8 @@
 
 <p>To leverage Azure Blob Storage add the following keys to your <code>App.Config/Web.Config</code></p>
 
-<div class="highlight highlight-text-xml"><pre>    &lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s"><span class="pl-pds">"</span>JC-AzureAccountName<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>{{YOUR ACCOUNT NAME}}<span class="pl-pds">"</span></span>/&gt;
-    &lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s"><span class="pl-pds">"</span>JC-AzureAccountKey<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>{{YOUR ACCOUNT KEY}}<span class="pl-pds">"</span></span>/&gt;</pre></div>
+<div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s"><span class="pl-pds">"</span>JC-AzureAccountName<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>{{YOUR ACCOUNT NAME}}<span class="pl-pds">"</span></span>/&gt;
+&lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s"><span class="pl-pds">"</span>JC-AzureAccountKey<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>{{YOUR ACCOUNT KEY}}<span class="pl-pds">"</span></span>/&gt;</pre></div>
 
 <h2>
 <a id="amazon-s3-configuration" class="anchor" href="#amazon-s3-configuration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Amazon S3 Configuration</h2>
@@ -108,6 +108,16 @@ JohnnyCache.Set(cacheKey);</pre></div>
 
     </section>
 
-  
+            <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-74210946-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
   </body>
 </html>
