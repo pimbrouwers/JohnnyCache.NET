@@ -22,7 +22,83 @@
       <h1>
 <a id="johnny-cache" class="anchor" href="#johnny-cache" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Johnny Cache</h1>
 
-<p>A thread-safe caching abstraction layer for .NET -- leverages object cache, filesystem and Azure Blob Storage (Amazon S3 coming soon).</p>
+<p><a href="https://travis-ci.org/pimbrouwers/johnny-cache/"><img src="https://travis-ci.org/pimbrouwers/johnny-cache.svg?branch=master" alt="Build Status"></a></p>
+
+<p>A thread-safe caching abstraction for .NET -- leverages object cache, filesystem and Azure Blob Storage (Amazon S3 coming soon). Johnny Cache was designed to improve application performance in both single-server and web-farm systems.</p>
+
+<h2>
+<a id="setupconfiguration" class="anchor" href="#setupconfiguration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Setup/Configuration</h2>
+
+<p>There are 3 primary configuration variables that need to be set in your <code>App.Config/Web.Config</code></p>
+
+<div class="highlight highlight-text-xml"><pre>    <span class="pl-c">&lt;!-- JOHNNY CACHE --&gt;</span>
+    &lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s"><span class="pl-pds">"</span>JC-ObjectCacheName<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>JohnnyCache-SomeProject<span class="pl-pds">"</span></span>/&gt;
+    &lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s"><span class="pl-pds">"</span>JC-WorkingDirectory<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>c:\temp\JohnnyCache\SomeProject<span class="pl-pds">"</span></span>/&gt;
+    &lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s"><span class="pl-pds">"</span>JC-ExpirationInSeconds<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>300<span class="pl-pds">"</span></span>/&gt;</pre></div>
+
+<p>Note: None of the above configuration variables are required, as they all are backed by default return values;</p>
+
+<h2>
+<a id="azure-configuration" class="anchor" href="#azure-configuration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Azure Configuration</h2>
+
+<p>To leverage Azure Blob Storage add the following keys to your <code>App.Config/Web.Config</code></p>
+
+<div class="highlight highlight-text-xml"><pre>    &lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s"><span class="pl-pds">"</span>JC-AzureAccountName<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>{{YOUR ACCOUNT NAME}}<span class="pl-pds">"</span></span>/&gt;
+    &lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s"><span class="pl-pds">"</span>JC-AzureAccountKey<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>{{YOUR ACCOUNT KEY}}<span class="pl-pds">"</span></span>/&gt;</pre></div>
+
+<h2>
+<a id="amazon-s3-configuration" class="anchor" href="#amazon-s3-configuration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Amazon S3 Configuration</h2>
+
+<div class="highlight highlight-source-cs"><pre>    <span class="pl-k">throw</span> <span class="pl-k">new</span> NotImplementedException(<span class="pl-s"><span class="pl-pds">"</span>Coming Soon!<span class="pl-pds">"</span></span>);</pre></div>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>The API for Johnny Cache is very simple, containing only 3 methods: <code>Get()</code> <code>Set()</code> <code>Delete()</code>.</p>
+
+<h3>
+<a id="get" class="anchor" href="#get" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get</h3>
+
+<p>The <code>Get()</code> method will:</p>
+
+<ul>
+<li>Check Object Cache</li>
+<li>Check the File Dependancy</li>
+<li>Check External Providers (if configured, see above)</li>
+</ul>
+
+<p>The primary method parameter here is the <code>key</code>. For "stale" checks you can optionally pass a <code>cacheDurationSeconds</code> param to override the library-governing expiration.</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">string</span> cacheKey = <span class="pl-s"><span class="pl-pds">"</span>SomeUniqueCacheKey<span class="pl-pds">"</span></span>;
+YourCoolObject mycoolObject = JohnnyCache.Get&lt;YourCoolObject&gt;(cacheKey) <span class="pl-k">as</span> YourCoolObject; <span class="pl-c">//using library expiration</span>
+YourCoolObject mycoolObject = JohnnyCache.Get&lt;YourCoolObject&gt;(cacheKey, <span class="pl-c1">6000</span>) <span class="pl-k">as</span> YourCoolObject; <span class="pl-c">//overriding library expiration</span></pre></div>
+
+<h3>
+<a id="set" class="anchor" href="#set" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Set</h3>
+
+<p>The <code>Set()</code> method will:</p>
+
+<ul>
+<li>Write to Object Cache</li>
+<li>Write to the File Dependancy</li>
+<li>Upload to External Providers (if configured, see above)</li>
+</ul>
+
+<p>The primary method parameter here is the <code>key</code>. For "stale" checks you can optionally pass a <code>cacheDurationSeconds</code> param to override the library-governing expiration.</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">string</span> cacheKey = <span class="pl-s"><span class="pl-pds">"</span>SomeUniqueCacheKey<span class="pl-pds">"</span></span>;
+JohnnyCache.Set(myCoolObject, cacheKey); <span class="pl-c">//using library expiration</span>
+JohnnyCache.Set(myCoolObject, cacheKey, <span class="pl-c1">6000</span>); <span class="pl-c">//overriding library expiration</span></pre></div>
+
+<h3>
+<a id="delete" class="anchor" href="#delete" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Delete</h3>
+
+<p>The delete method will purge the object(s) from all levels of cache. </p>
+
+<p>The lone method parameter here is the <code>key</code>.</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">string</span> cacheKey = <span class="pl-s"><span class="pl-pds">"</span>SomeUniqueCacheKey<span class="pl-pds">"</span></span>;
+JohnnyCache.Set(cacheKey);</pre></div>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/pimbrouwers/johnny-cache">Johnny Cache</a> is maintained by <a href="https://github.com/pimbrouwers">pimbrouwers</a>.</span>
