@@ -6,18 +6,18 @@ A thread-safe caching abstraction for .NET -- leverages object cache, filesystem
 ## Setup/Configuration
 There are 3 primary configuration variables that need to be set in your ``App.Config/Web.Config``
 ```xml
-    <!-- JOHNNY CACHE -->
-    <add key="JC-ObjectCacheName" value="JohnnyCache-SomeProject"/>
-    <add key="JC-WorkingDirectory" value="c:\temp\JohnnyCache\SomeProject"/>
-    <add key="JC-ExpirationInSeconds" value="300"/>
+<!-- JOHNNY CACHE -->
+<add key="JC-ObjectCacheName" value="JohnnyCache-SomeProject"/>
+<add key="JC-WorkingDirectory" value="c:\temp\JohnnyCache\SomeProject"/>
+<add key="JC-ExpirationInSeconds" value="300"/>
 ```
 Note: None of the above configuration variables are required, as they all are backed by default return values;
 
 ## Azure Configuration
 To leverage Azure Blob Storage add the following keys to your ``App.Config/Web.Config``
 ```xml
-    <add key="JC-AzureAccountName" value="{{YOUR ACCOUNT NAME}}"/>
-    <add key="JC-AzureAccountKey" value="{{YOUR ACCOUNT KEY}}"/>
+<add key="JC-AzureAccountName" value="{{YOUR ACCOUNT NAME}}"/>
+<add key="JC-AzureAccountKey" value="{{YOUR ACCOUNT KEY}}"/>
 ```
 
 ## Amazon S3 Configuration
