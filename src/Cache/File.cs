@@ -19,7 +19,7 @@ namespace CacheIO.Cache
         /// </summary>
         /// <param name="objToWrite"></param>
         /// <param name="fileName"></param>
-        public static void AddItem(object objToWrite, string fileName)
+        public static void AddItem(object objToWrite, string fileName, int? cacheDurationSeconds = null)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace CacheIO.Cache
                         File.WriteAllText(path, objStr);
 
                         //write to object cache
-                        ObjectCache.AddItem(objToWrite, fileName);
+                        ObjectCache.AddItem(objToWrite, fileName, cacheDurationSeconds);
                     }
                 }
 
@@ -53,7 +53,7 @@ namespace CacheIO.Cache
         /// <typeparam name="T"></typeparam>
         /// <param name="fileName"></param>
         /// <returns>Object (or null if not exists)</returns>
-        public static T GetItem<T>(string fileName)
+        public static T GetItem<T>(string fileName, int? cacheDurationSeconds = null)
         {
             try
             {
@@ -69,7 +69,9 @@ namespace CacheIO.Cache
                         {
                             DateTime now = DateTime.Now;
 
-                            if (fi.CreationTime.Subtract(now) > new TimeSpan(0, 0, Config.ExpirationSeconds))
+                            int expirationSeconds = (cacheDurationSeconds != null) ? (int)cacheDurationSeconds : Config.ExpirationSeconds;
+
+                            if (fi.CreationTime.Subtract(now) > new TimeSpan(0, 0, expirationSeconds))
                             {
                                 fi.Delete();
                             }

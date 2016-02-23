@@ -63,3 +63,5 @@ C:\git\johnny-cache\src\bin\Debug\zh-Hant\System.Spatial.resources.dll
 C:\git\johnny-cache\src\obj\Debug\JohnnyCache.csprojResolveAssemblyReference.cache
 C:\git\johnny-cache\src\obj\Debug\ClassLibrary.dll
 C:\git\johnny-cache\src\obj\Debug\ClassLibrary.pdb
+C:\git\johnny-cache\src\bin\Debug\JohnnyCache.XML
+C:\git\johnny-cache\src\bin\Debug\System.Web.dll

@@ -134,7 +134,7 @@ namespace CacheIO.Providers
         /// <param name="tmpFilePath"></param>
         /// <param name="containerName"></param>
         /// <param name="fileName"></param>
-        internal static string DownloadBlob(string fileName)
+        internal static string DownloadBlob(string fileName, int cacheDurationSeconds)
         {
 
             CloudBlockBlob blockBlob = AzureBlob.BlobContainer.GetBlockBlobReference(fileName);
@@ -143,7 +143,7 @@ namespace CacheIO.Providers
             {
 
                 //check if blob is stale
-                if (AzureBlob.IsStale(blockBlob))
+                if (AzureBlob.IsStale(blockBlob, cacheDurationSeconds))
                 {
                     AzureBlob.DeleteBlob(blockBlob);
                 }
@@ -222,7 +222,7 @@ namespace CacheIO.Providers
             }
         }
 
-        private static bool IsStale(CloudBlockBlob blockBlob)
+        private static bool IsStale(CloudBlockBlob blockBlob, int cacheDurationSeconds)
         {
             DateTimeOffset? now = DateTimeOffset.Now;
             DateTimeOffset? blobDate = blockBlob.Properties.LastModified;
@@ -232,7 +232,7 @@ namespace CacheIO.Providers
                 DateTimeOffset _now = (DateTimeOffset)now;
                 DateTimeOffset _blobDate = (DateTimeOffset)blobDate;
 
-                if (_blobDate.Subtract(_now) > new TimeSpan(0, 0, Config.ExpirationSeconds))
+                if (_blobDate.Subtract(_now) > new TimeSpan(0, 0, cacheDurationSeconds))
                 {
                     return true;
                 }

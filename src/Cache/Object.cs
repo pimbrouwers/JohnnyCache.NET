@@ -39,7 +39,7 @@ namespace CacheIO.Cache
         /// </summary>
         /// <param name="objToWrite"></param>
         /// <param name="key"></param>
-        public static void AddItem(object objToWrite, string key)
+        public static void AddItem(object objToWrite, string key, int? cacheDurationSeconds = null)
         {            
             lock (padlock)
             {

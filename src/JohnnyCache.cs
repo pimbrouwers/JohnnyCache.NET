@@ -9,7 +9,7 @@ namespace CacheIO
 {
     public static class JohnnyCache
     {
-        public static object Get<T>(string key)
+        public static object Get<T>(string key, int? cacheDurationSeconds = null)
         {
             try
             {
@@ -23,7 +23,7 @@ namespace CacheIO
 
                 //at this point we know it's not in memory
                 //read from file system
-                objFromCache = FileCache.GetItem<T>(key);
+                objFromCache = FileCache.GetItem<T>(key, cacheDurationSeconds);
 
                 if(!EqualityComparer<T>.Default.Equals(objFromCache, default(T)))
                     return objFromCache;
@@ -32,7 +32,7 @@ namespace CacheIO
                 {
                     //not in mem or file
                     //hit blob storage
-                    objFromCache = Azure.GetItem<T>(key);
+                    objFromCache = Azure.GetItem<T>(key, cacheDurationSeconds);
 
                     if (!EqualityComparer<T>.Default.Equals(objFromCache, default(T)))
                         return objFromCache;
@@ -47,16 +47,16 @@ namespace CacheIO
             }
         }
 
-        public static void Set(object objToWrite, string key)
+        public static void Set(object objToWrite, string key, int? cacheDurationSeconds = null)
         {
             try
             {
                 //add to mem cache
-                ObjectCache.AddItem(objToWrite, key);
+                ObjectCache.AddItem(objToWrite, key, cacheDurationSeconds);
 
                 //write to the file system
                 //(also writes to object cache)
-                FileCache.AddItem(objToWrite, key);
+                FileCache.AddItem(objToWrite, key, cacheDurationSeconds);
 
                 //Is Azure Setup?
                 if (Azure.IsReady)

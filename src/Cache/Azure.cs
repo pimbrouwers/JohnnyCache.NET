@@ -58,20 +58,23 @@ namespace CacheIO.Cache
         /// <typeparam name="T"></typeparam>
         /// <param name="fileName"></param>
         /// <returns>Object (or null if not exists)</returns>
-        public static T GetItem<T>(string fileName)
+        public static T GetItem<T>(string fileName, int? cacheDurationSeconds = null)
         {
             try
             {
                 lock(padlock)
                 {
-                    string res = AzureBlob.DownloadBlob(fileName);
+                    int expirationSeconds = (cacheDurationSeconds != null) ? (int)cacheDurationSeconds : Config.ExpirationSeconds;
+                    
+                    //will first check if blob is stale (expired), if not will download and turn
+                    string res = AzureBlob.DownloadBlob(fileName, expirationSeconds);
                     T resp = JsonConvert.DeserializeObject<T>(res);
 
                     if (resp is T)
                     {
                         //we know that if we've arrive here, both mem and file cache are empty
                         //save resp in file cache (which will push into memory)
-                        FileCache.AddItem(resp, fileName);
+                        FileCache.AddItem(resp, fileName, cacheDurationSeconds);
 
                         return resp;
                     }  
