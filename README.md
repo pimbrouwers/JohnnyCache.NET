@@ -22,7 +22,7 @@ To leverage Azure Blob Storage add the following keys to your ``App.Config/Web.C
 
 ## Amazon S3 Configuration
 ```c#
-    throw new NotImplementedException("Coming Soon!");
+throw new NotImplementedException("Coming Soon!");
 ```
 
 ## Usage
@@ -36,8 +36,8 @@ The ``Get()`` method will:
 The primary method parameter here is the ``key``. For "stale" checks you can optionally pass a ``cacheDurationSeconds`` param to override the library-governing expiration.
 ```c#
 string cacheKey = "SomeUniqueCacheKey";
-YourCoolObject mycoolObject = JohnnyCache.Get<YourCoolObject>(cacheKey) as YourCoolObject; //using library expiration
-YourCoolObject mycoolObject = JohnnyCache.Get<YourCoolObject>(cacheKey, 6000) as YourCoolObject; //overriding library expiration
+YourCoolObject mycoolObject = JohnnyCache.CacheIO.Get<YourCoolObject>(cacheKey) as YourCoolObject; //using library expiration
+YourCoolObject mycoolObject = JohnnyCache.CacheIO.Get<YourCoolObject>(cacheKey, 6000) as YourCoolObject; //overriding library expiration
 ```
 ### Set
 The ``Set()`` method will:
@@ -48,8 +48,8 @@ The ``Set()`` method will:
 The primary method parameter here is the ``key``. For "stale" checks you can optionally pass a ``cacheDurationSeconds`` param to override the library-governing expiration.
 ```c#
 string cacheKey = "SomeUniqueCacheKey";
-JohnnyCache.Set(myCoolObject, cacheKey); //using library expiration
-JohnnyCache.Set(myCoolObject, cacheKey, 6000); //overriding library expiration
+JohnnyCache.CacheIO.Set(myCoolObject, cacheKey); //using library expiration
+JohnnyCache.CacheIO.Set(myCoolObject, cacheKey, 6000); //overriding library expiration
 ```
 ### Delete
 The delete method will purge the object(s) from all levels of cache. 
@@ -57,5 +57,5 @@ The delete method will purge the object(s) from all levels of cache.
 The lone method parameter here is the ``key``.
 ```c#
 string cacheKey = "SomeUniqueCacheKey";
-JohnnyCache.Set(cacheKey);
+JohnnyCache.CacheIO.Set(cacheKey);
 ```
