@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CacheIO
+namespace JohnnyCache
 {
     public static class Config
     {

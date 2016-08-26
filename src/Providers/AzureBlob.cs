@@ -8,7 +8,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using System.Threading;
 using System.IO;
 
-namespace CacheIO.Providers
+namespace JohnnyCache.Providers
 {
     public static class AzureBlob
     {

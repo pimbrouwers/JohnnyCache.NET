@@ -3,9 +3,9 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Data;
-using CacheIO.Helpers;
+using JohnnyCache.Helpers;
 
-namespace CacheIO.Cache
+namespace JohnnyCache.Cache
 {
     public static class FileCache
     {
@@ -55,23 +55,23 @@ namespace CacheIO.Cache
         /// <returns>Object (or null if not exists)</returns>
         public static T GetItem<T>(string fileName, int? cacheDurationSeconds = null)
         {
-            try
+            T resp = default(T);
+
+            string path = ResolveFilePath(fileName);
+
+            if (!String.IsNullOrWhiteSpace(path))
             {
-                string path = ResolveFilePath(fileName);
+                FileInfo fi = new FileInfo(path);
 
-                if (!String.IsNullOrWhiteSpace(path))
+                if (fi.Exists)
                 {
-                    FileInfo fi = new FileInfo(path);
-
-                    if (fi.Exists)
+                    try
                     {
                         lock (padlock)
                         {
-                            DateTime now = DateTime.Now;
-
                             int expirationSeconds = (cacheDurationSeconds != null) ? (int)cacheDurationSeconds : Config.ExpirationSeconds;
 
-                            if (fi.CreationTime.Subtract(now) > new TimeSpan(0, 0, expirationSeconds))
+                            if (DateTime.UtcNow - fi.LastWriteTimeUtc > TimeSpan.FromSeconds(expirationSeconds))
                             {
                                 fi.Delete();
                             }
@@ -79,29 +79,24 @@ namespace CacheIO.Cache
                             {
                                 string res = File.ReadAllText(path);
 
-                                T resp = JsonConvert.DeserializeObject<T>(res);
+                                resp = JsonConvert.DeserializeObject<T>(res);
 
-                                if (resp is T)
-                                {
-                                    //check if the objet is in mem cache, if not add it
-                                    if (ObjectCache.GetItem<T>(fileName) == null)
-                                        ObjectCache.AddItem(resp, fileName);
-
-                                    return resp;
-                                }
+                                //check if the objet is in mem cache, if not add it
+                                if (ObjectCache.GetItem<T>(fileName) == null)
+                                    ObjectCache.AddItem(resp, fileName);
                             }
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        fi.Delete(); //something is probably wrong with the data in the file cache, so delete
+                        throw ex;
+                    }
+
                 }
-
-                return default(T);
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
             }
 
+            return resp;
         }
 
         /// <summary>
@@ -116,10 +111,10 @@ namespace CacheIO.Cache
 
                 if (!String.IsNullOrWhiteSpace(path))
                 {
-                    lock(padlock)
+                    lock (padlock)
                     {
                         File.Delete(path);
-                    }                    
+                    }
                 }
             }
             catch (Exception ex)
@@ -140,10 +135,10 @@ namespace CacheIO.Cache
                     try
                     {
                         //try to create directory
-                        lock(padlock)
+                        lock (padlock)
                         {
                             Directory.CreateDirectory(wd);
-                        }                        
+                        }
                     }
                     catch (Exception ex)
                     {

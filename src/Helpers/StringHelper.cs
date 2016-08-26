@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CacheIO.Helpers
+namespace JohnnyCache.Helpers
 {
     public static class StringHelper
     {

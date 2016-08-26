@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CacheIO.Cache;
+using JohnnyCache.Cache;
 
-namespace CacheIO
+namespace JohnnyCache
 {
-    public static class JohnnyCache
+    public static class CacheIO
     {
         public static object Get<T>(string key, int? cacheDurationSeconds = null)
         {

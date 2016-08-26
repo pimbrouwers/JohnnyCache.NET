@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CacheIO.Providers;
+using JohnnyCache.Providers;
 using System.IO;
 using Newtonsoft.Json;
-using CacheIO.Helpers;
+using JohnnyCache.Helpers;
 
-namespace CacheIO.Cache
+namespace JohnnyCache.Cache
 {
     
     public static class Azure
